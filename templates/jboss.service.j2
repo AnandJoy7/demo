@@ -1,0 +1,14 @@
+# templates/jboss.service.j2
+[Unit]
+Description=JBoss EAP 7.x Service
+After=network.target
+
+[Service]
+Type=simple
+User={{ ansible_user }}
+ExecStart={{ jboss_install_dir }}/bin/standalone.sh -b 0.0.0.0 -c standalone.xml
+ExecStop={{ jboss_install_dir }}/bin/jboss-cli.sh --connect command=:shutdown
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

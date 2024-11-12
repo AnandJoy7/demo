@@ -1,0 +1,10 @@
+---
+# vars file for jboss-eap
+# vars/main.yml
+os_family_packages:
+  Debian:
+    - unzip
+    - openjdk-{{ supported_jdk_versions[-1] }}-jdk  # JDK 12 for Debian-based systems
+  RedHat:
+    - unzip
+    - java-{{ supported_jdk_versions[-1] }}-openjdk-devel  # JDK 12 for RedHat-based systems

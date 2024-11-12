@@ -1,0 +1,33 @@
+---
+# tasks file for jboss-eap
+# tasks/main.yml
+- name: Install required packages
+  ansible.builtin.package:
+    name: "{{ os_family_packages[ansible_os_family] }}"
+    state: present
+
+- name: Create JBoss EAP installation directory
+  ansible.builtin.file:
+    path: "{{ jboss_install_dir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    mode: '0755'
+
+- name: Unzip JBoss EAP package
+  ansible.builtin.unarchive:
+    src: "{{ role_path }}/files/jboss-eap-{{ jboss_eap_version }}.zip"
+    dest: "{{ jboss_install_dir }}"
+    remote_src: yes
+  when: ansible_os_family in ["Debian", "RedHat"]
+
+- name: Configure JBoss EAP service
+  ansible.builtin.template:
+    src: jboss.service.j2
+    dest: /etc/systemd/system/{{ jboss_service_name }}.service
+  notify: Restart JBoss EAP
+
+- name: Enable and start JBoss EAP service
+  ansible.builtin.systemd:
+    name: "{{ jboss_service_name }}"
+    enabled: yes
+    state: started

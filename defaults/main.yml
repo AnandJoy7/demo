@@ -1,0 +1,8 @@
+---
+# defaults file for jboss-eap
+# defaults/main.yml
+jboss_eap_version: "7.4.0"
+jboss_install_dir: "/opt/jboss-eap"
+jboss_service_name: "jboss-eap"
+jboss_port: 8080
+supported_jdk_versions: ["8", "11", "12"]

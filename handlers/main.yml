@@ -1,0 +1,7 @@
+---
+# handlers file for jboss-eap
+# handlers/main.yml
+- name: Restart JBoss EAP
+  ansible.builtin.systemd:
+    name: "{{ jboss_service_name }}"
+    state: restarted
